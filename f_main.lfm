@@ -1,10 +1,10 @@
 object MainForm: TMainForm
   Left = 313
-  Height = 460
+  Height = 480
   Top = 192
   Width = 640
   Caption = 'Настройка карты ГБО 4 поколения'
-  ClientHeight = 460
+  ClientHeight = 480
   ClientWidth = 640
   Constraints.MinHeight = 460
   Constraints.MinWidth = 640
@@ -47,32 +47,32 @@ object MainForm: TMainForm
     00004000000040080000C0090000E01F0000F03F0000FFFF0000FFFF0000FFFF
     0000
   }
+  Position = poScreenCenter
+  LCLVersion = '4.0.0.4'
   OnHide = FormHide
   OnResize = FormResize
   OnShow = FormShow
-  Position = poScreenCenter
-  LCLVersion = '2.2.4.0'
   object PageControl1: TPageControl
     Left = 0
-    Height = 370
+    Height = 390
     Top = 0
     Width = 640
-    ActivePage = t_csetup
+    ActivePage = t_kmap
     Align = alTop
     ParentFont = False
-    TabIndex = 1
+    TabIndex = 2
     TabOrder = 0
     object t_setup: TTabSheet
       Caption = 't_setup'
-      ClientHeight = 335
-      ClientWidth = 634
-      OnResize = t_setupResize
+      ClientHeight = 362
+      ClientWidth = 632
       ParentFont = False
+      OnResize = t_setupResize
       object Label1: TLabel
         Left = 1
-        Height = 17
+        Height = 15
         Top = 29
-        Width = 114
+        Width = 107
         Caption = 'Исходные данные'
         Font.Style = [fsBold]
         ParentColor = False
@@ -80,9 +80,9 @@ object MainForm: TMainForm
       end
       object Label2: TLabel
         Left = 1
-        Height = 17
+        Height = 15
         Top = 120
-        Width = 97
+        Width = 91
         Caption = 'Время впрыска'
         Font.Style = [fsBold]
         ParentColor = False
@@ -90,14 +90,14 @@ object MainForm: TMainForm
       end
       object s_vprysk: TComboBox
         Left = 1
-        Height = 27
+        Height = 23
         Top = 142
         Width = 90
-        ItemHeight = 0
-        OnChange = s_vpryskChange
+        ItemHeight = 15
         ParentFont = False
         TabOrder = 0
         Text = 's_vprysk'
+        OnChange = s_vpryskChange
       end
       object files_list: TListBox
         Left = 0
@@ -107,17 +107,16 @@ object MainForm: TMainForm
         Items.Strings = (
           'files_list'
         )
-        ItemHeight = 0
-        OnKeyDown = files_listKeyDown
-        OnMouseUp = files_listMouseUp
+        ItemHeight = 15
         ParentFont = False
         ScrollWidth = 542
         TabOrder = 1
-        TopIndex = -1
+        OnKeyDown = files_listKeyDown
+        OnMouseUp = files_listMouseUp
       end
       object l_vprysk: TMemo
-        Left = 1
-        Height = 157
+        Left = 0
+        Height = 177
         Top = 176
         Width = 90
         Lines.Strings = (
@@ -130,67 +129,13 @@ object MainForm: TMainForm
       end
       object Label3: TLabel
         Left = 112
-        Height = 17
+        Height = 15
         Top = 120
-        Width = 56
+        Width = 52
         Caption = 'Обороты'
         Font.Style = [fsBold]
         ParentColor = False
         ParentFont = False
-      end
-      object Label4: TLabel
-        Left = 112
-        Height = 17
-        Top = 151
-        Width = 59
-        Caption = 'Минимум'
-        ParentColor = False
-        ParentFont = False
-      end
-      object ob_min: TEdit
-        Left = 112
-        Height = 27
-        Top = 169
-        Width = 64
-        ParentFont = False
-        TabOrder = 3
-        Text = 'ob_min'
-      end
-      object Label5: TLabel
-        Left = 112
-        Height = 17
-        Top = 208
-        Width = 62
-        Caption = 'Максимум'
-        ParentColor = False
-        ParentFont = False
-      end
-      object ob_max: TEdit
-        Left = 112
-        Height = 27
-        Top = 225
-        Width = 64
-        ParentFont = False
-        TabOrder = 4
-        Text = 'ob_max'
-      end
-      object Label6: TLabel
-        Left = 112
-        Height = 17
-        Top = 263
-        Width = 24
-        Caption = 'Шаг'
-        ParentColor = False
-        ParentFont = False
-      end
-      object ob_step: TEdit
-        Left = 112
-        Height = 27
-        Top = 281
-        Width = 64
-        ParentFont = False
-        TabOrder = 5
-        Text = 'ob_step'
       end
       object file_button: TButton
         Left = 543
@@ -198,34 +143,34 @@ object MainForm: TMainForm
         Top = 48
         Width = 89
         Caption = 'file_button'
-        OnClick = file_buttonClick
         ParentFont = False
-        TabOrder = 6
+        TabOrder = 3
+        OnClick = file_buttonClick
       end
       object alg_makros_group: TGroupBox
         Left = 190
-        Height = 119
+        Height = 139
         Top = 125
         Width = 340
         Caption = 'alg_makros_group'
-        ClientHeight = 115
+        ClientHeight = 119
         ClientWidth = 336
         ParentFont = False
-        TabOrder = 7
+        TabOrder = 4
         object Label8: TLabel
           Left = 70
-          Height = 17
+          Height = 15
           Top = 8
-          Width = 90
+          Width = 85
           Caption = 'Время впрыска'
           ParentColor = False
           ParentFont = False
         end
         object Label9: TLabel
           Left = 186
-          Height = 17
+          Height = 15
           Top = 8
-          Width = 52
+          Width = 51
           Caption = 'Обороты'
           ParentColor = False
           ParentFont = False
@@ -254,7 +199,7 @@ object MainForm: TMainForm
         end
         object Label12: TLabel
           Left = 270
-          Height = 17
+          Height = 15
           Top = 8
           Width = 26
           Caption = 'МАР'
@@ -263,7 +208,7 @@ object MainForm: TMainForm
         end
         object dm_vprysk: TEdit
           Left = 88
-          Height = 27
+          Height = 23
           Top = 33
           Width = 73
           ParentFont = False
@@ -272,7 +217,7 @@ object MainForm: TMainForm
         end
         object dp_vprysk: TEdit
           Left = 88
-          Height = 27
+          Height = 23
           Top = 69
           Width = 73
           ParentFont = False
@@ -281,7 +226,7 @@ object MainForm: TMainForm
         end
         object dm_oboroty: TEdit
           Left = 171
-          Height = 27
+          Height = 23
           Top = 33
           Width = 73
           ParentFont = False
@@ -290,7 +235,7 @@ object MainForm: TMainForm
         end
         object dp_oboroty: TEdit
           Left = 171
-          Height = 27
+          Height = 23
           Top = 69
           Width = 73
           ParentFont = False
@@ -299,7 +244,7 @@ object MainForm: TMainForm
         end
         object dm_map: TEdit
           Left = 254
-          Height = 27
+          Height = 23
           Top = 33
           Width = 73
           ParentFont = False
@@ -308,12 +253,23 @@ object MainForm: TMainForm
         end
         object dp_map: TEdit
           Left = 254
-          Height = 27
+          Height = 23
           Top = 69
           Width = 73
           ParentFont = False
           TabOrder = 5
           Text = 'dp_map'
+        end
+        object cbMultGazMap: TCheckBox
+          Left = 8
+          Height = 19
+          Hint = 'Перемножать расчитанные коэффициенты с газовой картой'
+          Top = 96
+          Width = 183
+          Caption = 'Перемножать коэффициенты'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 6
         end
       end
       object go_button: TButton
@@ -323,15 +279,15 @@ object MainForm: TMainForm
         Width = 96
         Caption = 'go_button'
         Font.Style = [fsBold]
-        OnClick = go_buttonClick
         ParentFont = False
-        TabOrder = 8
+        TabOrder = 5
+        OnClick = go_buttonClick
       end
       object Label7: TLabel
         Left = 0
-        Height = 17
+        Height = 15
         Top = 0
-        Width = 57
+        Width = 54
         Alignment = taRightJustify
         Caption = 'Расчёт по'
         ParentColor = False
@@ -339,14 +295,14 @@ object MainForm: TMainForm
       end
       object alg_select: TComboBox
         Left = 176
-        Height = 27
+        Height = 23
         Top = 0
         Width = 456
-        ItemHeight = 0
-        OnChange = alg_selectChange
+        ItemHeight = 15
         ParentFont = False
-        TabOrder = 9
+        TabOrder = 6
         Text = 'alg_select'
+        OnChange = alg_selectChange
       end
       object clear_button: TButton
         Left = 544
@@ -354,23 +310,23 @@ object MainForm: TMainForm
         Top = 80
         Width = 89
         Caption = 'clear_button'
-        OnClick = clear_buttonClick
         ParentFont = False
-        TabOrder = 10
+        TabOrder = 7
+        OnClick = clear_buttonClick
       end
       object graph_group: TGroupBox
         Left = 190
         Height = 90
-        Top = 245
+        Top = 265
         Width = 442
         Caption = 'graph_group'
-        ClientHeight = 71
+        ClientHeight = 70
         ClientWidth = 438
         ParentFont = False
-        TabOrder = 11
+        TabOrder = 8
         object ds_chart: TChart
           Left = 0
-          Height = 71
+          Height = 70
           Top = 0
           Width = 438
           AxisList = <          
@@ -406,7 +362,7 @@ object MainForm: TMainForm
         BorderStyle = sbsSunken
         Caption = 'file_gas'
         ParentFont = False
-        TabOrder = 12
+        TabOrder = 9
         Visible = False
       end
       object file_cont: TStaticText
@@ -417,30 +373,30 @@ object MainForm: TMainForm
         BorderStyle = sbsSunken
         Caption = 'file_cont'
         ParentFont = False
-        TabOrder = 13
+        TabOrder = 10
         Visible = False
       end
       object Label15: TLabel
         Left = 536
-        Height = 17
+        Height = 15
         Top = 180
-        Width = 14
+        Width = 15
         Caption = 'K='
         ParentColor = False
         ParentFont = False
       end
       object ds_b_text: TEdit
         Left = 560
-        Height = 27
+        Height = 23
         Top = 212
         Width = 72
         ParentFont = False
-        TabOrder = 14
+        TabOrder = 11
         Text = 'ds_b_text'
       end
       object Label16: TLabel
         Left = 535
-        Height = 17
+        Height = 15
         Top = 218
         Width = 15
         Caption = 'B='
@@ -449,25 +405,46 @@ object MainForm: TMainForm
       end
       object ds_k_text: TEdit
         Left = 560
-        Height = 27
+        Height = 23
         Top = 176
         Width = 72
         ParentFont = False
-        TabOrder = 15
+        TabOrder = 12
         Text = 'ds_k_text'
+      end
+      object fill_oborot_button: TButton
+        Left = 104
+        Height = 25
+        Top = 142
+        Width = 75
+        Caption = 'Заполнить'
+        TabOrder = 13
+        OnClick = fill_oborot_buttonClick
+      end
+      object l_oborot: TMemo
+        Left = 104
+        Height = 177
+        Top = 176
+        Width = 82
+        Lines.Strings = (
+          'Заполните'
+        )
+        ParentFont = False
+        ScrollBars = ssVertical
+        TabOrder = 14
       end
     end
     object t_csetup: TTabSheet
       Caption = 't_csetup'
-      ClientHeight = 335
-      ClientWidth = 634
-      OnResize = t_csetupResize
+      ClientHeight = 362
+      ClientWidth = 632
       ParentFont = False
+      OnResize = t_csetupResize
       object Label13: TLabel
         Left = 0
-        Height = 19
+        Height = 21
         Top = 0
-        Width = 484
+        Width = 409
         Caption = 'Настройка данных в файле контроллера двигателя'
         Font.CharSet = RUSSIAN_CHARSET
         Font.Color = clBlack
@@ -481,152 +458,151 @@ object MainForm: TMainForm
       end
       object Label14: TLabel
         Left = 6
-        Height = 17
+        Height = 15
         Top = 30
-        Width = 163
+        Width = 153
         Caption = 'Обороты двигателя (1/мин)'
         ParentColor = False
         ParentFont = False
       end
       object cs_giri: TComboBox
         Left = 0
-        Height = 27
+        Height = 23
         Top = 49
         Width = 627
-        ItemHeight = 0
+        ItemHeight = 15
         ParentFont = False
         TabOrder = 0
         Text = 'cs_giri'
       end
       object Label17: TLabel
         Left = 6
-        Height = 17
+        Height = 15
         Top = 82
-        Width = 116
+        Width = 111
         Caption = 'Время впрыска (мс)'
         ParentColor = False
         ParentFont = False
       end
       object cs_benz: TComboBox
         Left = 0
-        Height = 27
+        Height = 23
         Top = 101
         Width = 627
-        ItemHeight = 0
+        ItemHeight = 15
         ParentFont = False
         TabOrder = 1
         Text = 'cs_benz'
       end
       object Label18: TLabel
         Left = 6
-        Height = 17
+        Height = 15
         Top = 132
-        Width = 180
+        Width = 170
         Caption = 'Коррекция топливоподачи (%)'
         ParentColor = False
         ParentFont = False
       end
       object cs_sft: TComboBox
         Left = 0
-        Height = 27
+        Height = 23
         Top = 151
         Width = 627
-        ItemHeight = 0
+        ItemHeight = 15
         ParentFont = False
         TabOrder = 2
         Text = 'cs_sft'
       end
       object Label19: TLabel
         Left = 6
-        Height = 17
+        Height = 15
         Top = 184
-        Width = 188
+        Width = 177
         Caption = 'Долговременная коррекция (%)'
         ParentColor = False
         ParentFont = False
       end
       object cs_lft: TComboBox
         Left = 0
-        Height = 27
+        Height = 23
         Top = 203
         Width = 627
-        ItemHeight = 0
+        ItemHeight = 15
         ParentFont = False
         TabOrder = 3
         Text = 'cs_lft'
       end
       object Label20: TLabel
         Left = 6
-        Height = 17
+        Height = 15
         Top = 244
-        Width = 63
+        Width = 59
         Caption = 'Кодировка'
         ParentColor = False
         ParentFont = False
       end
       object cs_charset: TComboBox
         Left = 0
-        Height = 27
+        Height = 23
         Top = 263
         Width = 144
-        ItemHeight = 0
-        OnChange = cs_charsetChange
+        ItemHeight = 15
         ParentFont = False
         TabOrder = 4
         Text = 'cs_charset'
+        OnChange = cs_charsetChange
       end
       object Label21: TLabel
         Left = 160
-        Height = 17
+        Height = 15
         Top = 244
-        Width = 76
+        Width = 68
         Caption = 'Разделитель'
         ParentColor = False
         ParentFont = False
       end
       object cs_splitter: TComboBox
         Left = 152
-        Height = 27
+        Height = 23
         Top = 263
         Width = 152
-        ItemHeight = 0
-        OnChange = cs_splitterChange
+        ItemHeight = 15
         ParentFont = False
         TabOrder = 5
         Text = 'cs_splitter'
+        OnChange = cs_splitterChange
       end
       object Label22: TLabel
         Left = 320
-        Height = 17
+        Height = 15
         Top = 244
-        Width = 158
+        Width = 144
         Caption = 'Расчёт среднего значения'
         ParentColor = False
       end
       object cs_average: TComboBox
         Left = 312
-        Height = 27
+        Height = 23
         Top = 263
         Width = 315
-        ItemHeight = 0
+        ItemHeight = 15
         TabOrder = 6
         Text = 'cs_average'
       end
     end
     object t_kmap: TTabSheet
       Caption = 't_kmap'
-      ClientHeight = 335
-      ClientWidth = 634
+      ClientHeight = 362
+      ClientWidth = 632
       ParentFont = False
       object g_kor: TStringGrid
         Left = 0
-        Height = 335
+        Height = 362
         Top = 0
-        Width = 634
+        Width = 632
         Align = alClient
         ColCount = 2
         MouseWheelOption = mwGrid
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goSmoothScroll]
         ParentFont = False
         RowCount = 2
         TabOrder = 0
@@ -637,18 +613,17 @@ object MainForm: TMainForm
     end
     object t_benzmap: TTabSheet
       Caption = 't_benzmap'
-      ClientHeight = 335
-      ClientWidth = 634
+      ClientHeight = 362
+      ClientWidth = 632
       ParentFont = False
       object g_benz: TStringGrid
         Left = 0
-        Height = 335
+        Height = 362
         Top = 0
-        Width = 634
+        Width = 632
         Align = alClient
         ColCount = 2
         MouseWheelOption = mwGrid
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goSmoothScroll]
         ParentFont = False
         RowCount = 2
         TabOrder = 0
@@ -656,18 +631,18 @@ object MainForm: TMainForm
     end
     object t_gazmap: TTabSheet
       Caption = 't_gazmap'
-      ClientHeight = 335
-      ClientWidth = 634
+      ClientHeight = 362
+      ClientWidth = 632
       ParentFont = False
       object g_gaz: TStringGrid
         Left = 0
-        Height = 335
+        Height = 362
         Top = 0
-        Width = 634
+        Width = 632
         Align = alClient
         ColCount = 2
         MouseWheelOption = mwGrid
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goSmoothScroll]
+        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goSmoothScroll]
         ParentFont = False
         RowCount = 2
         TabOrder = 0
@@ -677,7 +652,7 @@ object MainForm: TMainForm
   object logtext: TMemo
     Left = 0
     Height = 89
-    Top = 371
+    Top = 391
     Width = 640
     Align = alBottom
     Lines.Strings = (
@@ -687,6 +662,24 @@ object MainForm: TMainForm
     ReadOnly = True
     ScrollBars = ssAutoVertical
     TabOrder = 1
+  end
+  object Label5: TLabel
+    Left = 112
+    Height = 15
+    Top = 208
+    Width = 60
+    Caption = 'Максимум'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 112
+    Height = 15
+    Top = 151
+    Width = 56
+    Caption = 'Минимум'
+    ParentColor = False
+    ParentFont = False
   end
   object fl_menu: TPopupMenu
     Left = 288

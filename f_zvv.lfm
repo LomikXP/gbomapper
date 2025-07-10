@@ -7,10 +7,9 @@ object ZVVForm: TZVVForm
   Caption = 'Время впрыска'
   ClientHeight = 105
   ClientWidth = 360
-  OnCreate = FormCreate
-  OnDeactivate = FormDeactivate
   Position = poScreenCenter
-  LCLVersion = '1.6.4.0'
+  OnDeactivate = FormDeactivate
+  OnShow = FormShow
   object Label1: TLabel
     Left = 1
     Height = 15
@@ -65,8 +64,8 @@ object ZVVForm: TZVVForm
     Top = 64
     Width = 140
     Caption = 'Заполнить'
-    OnClick = Button1Click
     TabOrder = 3
+    OnClick = Button1Click
   end
   object Button2: TButton
     Left = 190
@@ -75,7 +74,7 @@ object ZVVForm: TZVVForm
     Width = 140
     Cancel = True
     Caption = 'Отмена'
-    OnClick = Button2Click
     TabOrder = 4
+    OnClick = Button2Click
   end
 end

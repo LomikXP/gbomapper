@@ -141,7 +141,7 @@ end;
 procedure ec_calc;
 var
  x,y,i,n:integer;
- Sum: single;
+ sum, gm: single;
 begin
  MainForm.t_kmap.Show;
  for x:=0 to po_count-1 do
@@ -158,9 +158,21 @@ begin
        (CGiri[n] >= OB[x]-dom) and (CGiri[n] <= OB[x]+dop) then
         mid_add(CLT[n]+CST[n]);
      end;
-    Sum:=mid_calc;
-    if (Sum<>0) then MainForm.g_kor.Cells[x+1,y+1] :=
-     FloatToStrF(Sum,ffFixed, 1, 1) else MainForm.g_kor.Cells[x+1,y+1]:='-';
+
+    sum:=mid_calc;
+
+    if (sum<>0) then
+    begin
+      if (MainForm.cbMultGazMap.Enabled and MainForm.cbMultGazMap.Checked) then
+      begin
+        gm := toDouble(MainForm.g_gaz.Cells[x+1, y+1]);
+        if (gm > 0) then
+          sum := gm + (gm / 100 * sum);
+      end;
+      MainForm.g_kor.Cells[x+1,y+1] := FloatToStrF(sum,ffFixed, 1, 1)
+    end
+    else
+      MainForm.g_kor.Cells[x+1,y+1] := '-';
    end;
 end;
 

@@ -5,7 +5,7 @@ unit u_loader;
 interface
 
 uses
-  Classes, SysUtils, LazUTF8, Forms, u_data, LConvEncoding;
+  Classes, SysUtils, LazUTF8, Forms, u_data, LConvEncoding, f_zvv;
 
 const
  {$IFDEF WINDOWS}
@@ -43,7 +43,6 @@ var
 begin
  with MainForm do
   begin
-   po_count:=0;
    pv_count:=0;
    for n:=0 to (l_vprysk.Lines.Count - 1) do
     begin
@@ -68,29 +67,32 @@ begin
     begin
      ErrorMessage('Слишком мало точек времени впрыска.');
      exit;
-    end;
-   n:=toint(ob_min.Text);
-   i:=toint(ob_max.Text);
-   x:=toint(ob_step.Text);
-   if (n<1) then n:=1;
-   if (i>10000) then i:=10000;
-   if (x<1) then x:=1;
-   OB[0]:=n;
-   po_count:=1;
-   if PE and ((n>i) or (n<100)) then
+    end;     
+   po_count:=0;
+   for n:=0 to (l_oborot.Lines.Count - 1) do
     begin
-     ErrorMessage('Ошибка настройки оборотов!');
+     OB[po_count] := toint(l_oborot.Lines.Strings[n]);
+     if (OB[po_count] > 0) then
+      begin
+       if (po_count < 255) then inc(po_count) else
+        break;
+      end;
+    end;
+   s:='';
+   for n:=0 to (po_count-1) do
+    s:=s+IntToStr(OB[n])+' ';
+   WriteLog('Точки оборотов: '+s);
+   for n:=0 to (po_count-2) do
+    if (OB[n] > OB[n+1]) and PE then
+     begin
+      ErrorMessage('Ошибка в данных оборотв!');
+      exit;
+     end;
+   if (po_count<2) and PE then
+    begin
+     ErrorMessage('Слишком мало точек оборотов.');
      exit;
     end;
-   s:=inttostr(n)+' ';
-   while (n < i) do
-    begin
-     n:=n+x;
-     OB[po_count]:=n;
-     if (po_count = 255) then break else inc(po_count);
-     s:=s+inttostr(n)+' ';
-    end;
-   if PE then WriteLog('Точки оборотов: '+s);
    dvm:=todouble(dm_vprysk.Text);
    dvp:=todouble(dp_vprysk.Text);
    dmm:=todouble(dm_map.Text);
@@ -99,7 +101,8 @@ begin
    dop:=toint(dp_oboroty.Text);
    g_kor.Clear;
    g_benz.Clear;
-   g_gaz.Clear;
+   if ((alg_select.ItemIndex <> 2) and (alg_select.ItemIndex <> 3)) then
+     g_gaz.Clear;
    g_kor.ColCount:=po_count+1;
    g_kor.RowCount:=pv_count+1;
    g_benz.ColCount:=po_count+1;
@@ -171,9 +174,12 @@ begin
        if (pos('RPM',SplitA[x-1])>0) and (crpm=0) then begin crpm:=x; continue; end;
        if (pos('ОБОРОТЫ',SplitA[x-1])>0) and (crpm=0) then begin crpm:=x; continue; end;
        if (pos('REALAVGTG',SplitA[x-1])>0) and (cvg=0) then begin cvg:=x; continue; end;
-       if (pos('REALAVGTB',SplitA[x-1])>0) and (cvb=0) then begin cvb:=x; continue; end;
+       if (pos('REALAVGTB',SplitA[x-1])>0) and (cvb=0) then begin cvb:=x; continue; end;   
+       if (pos('INJECTOR DRIVE TIME',SplitA[x-1])>0) and (cvb=0) then begin cvb:=x; continue; end;
        if (pos('ДЛИТЕЛЬНОСТЬ ВПРЫСКА',SplitA[x-1])>0) and (cvb=0) then begin cvb:=x; continue; end;
-       if (pos('МУЛЬТИПЛИКАТИВНАЯ СОСТАВЛЯЮЩАЯ КОРРЕКЦИИ',SplitA[x-1])>0) and (clt=0) then begin clt:=x; continue; end;
+       if (pos('МУЛЬТИПЛИКАТИВНАЯ СОСТАВЛЯЮЩАЯ КОРРЕКЦИИ',SplitA[x-1])>0) and (clt=0) then begin clt:=x; continue; end;  
+       if (pos('КРАТКОВРЕМЕННАЯ КОРРЕКЦИЯ',SplitA[x-1])>0) and (cst=0) then begin cst:=x; continue; end;
+       if (pos('ДОЛГОВРЕМЕННАЯ КОРРЕКЦИЯ',SplitA[x-1])>0) and (cst=0) then begin clt:=x; continue; end;
        if (pos('КОРРЕКЦИЯ',SplitA[x-1])>0) and (cst=0) then begin cst:=x; continue; end;
        if (pos('КОЭФФИЦИЕНТ КОРРЕКЦИИ',SplitA[x-1])>0) and (cst=0) then begin if (cst=0) then cst:=x; continue; end;
        if (pos('FUEL',SplitA[x-1])>0)
@@ -594,11 +600,11 @@ begin
   s:= TStringStream.Create('');
   hdr:='BCFG2';
   if (str.Write(hdr,5) <> 5) then exit;
-  n:=toint(MainForm.ob_min.Text);
+  n:=ZVVForm_Min;
   if (str.Write(n,4) <> 4) then exit;
-  n:=toint(MainForm.ob_max.Text);
+  n:=ZVVForm_Max;
   if (str.Write(n,4) <> 4) then exit;
-  n:=toint(MainForm.ob_step.Text);
+  n:=ZVVForm_Step;
   if (str.Write(n,4) <> 4) then exit;
   if (str.Write(dvm,4) <> 4) then exit;
   if (str.Write(dvp,4) <> 4) then exit;
@@ -655,6 +661,25 @@ begin
      if (str.Write(MainForm.Width,4) <> 4) then exit;
      if (str.Write(MainForm.Height,4) <> 4) then exit;
     end;
+  // сохранение оборотов
+  if (str.Write(po_count,1) <> 1) then exit;
+  if (str.Write(OB, po_count*4) <> po_count*4) then exit;
+  // сохранение карты газа
+  if (str.Write(MainForm.g_gaz.ColCount,4) <> 4) then exit;
+  if (str.Write(MainForm.g_gaz.RowCount,4) <> 4) then exit;
+  for n:=0 to MainForm.g_gaz.ColCount-1 do
+   for i:=0 to MainForm.g_gaz.RowCount-1 do
+    begin
+     if (n=0) and (i=0) then continue;
+     l:=length(MainForm.g_gaz.Cells[n,i]);
+     if (str.Write(l,4) <> 4) then exit;
+     if (l<1) then continue;
+     s.Size:=l;
+     s.Seek(0,0);
+     s.WriteString(MainForm.g_gaz.Cells[n,i]);
+     s.Seek(0,0);
+     if (str.CopyFrom(s,l) <> l) then exit;
+    end;
   str.SaveToFile(CFG_FILE);
  finally str.Free; s.Free; end;
 end;
@@ -677,11 +702,11 @@ begin
   if (str.Read(hdr,5) <> 5) then exit;
   if (hdr <> 'BCFG2') then exit;
   if (str.Read(n,4) <> 4) then exit;
-  MainForm.ob_min.Text:=inttostr(n);
+  ZVVForm_Min:=n;
   if (str.Read(n,4) <> 4) then exit;
-  MainForm.ob_max.Text:=inttostr(n);
+  ZVVForm_Max:=n;
   if (str.Read(n,4) <> 4) then exit;
-  MainForm.ob_step.Text:=inttostr(n);
+  ZVVForm_Step:=n;
   if (str.Read(dvm,4) <> 4) then exit;
   if (str.Read(dvp,4) <> 4) then exit;
   if (str.Read(dmm,4) <> 4) then exit;
@@ -747,6 +772,31 @@ begin
     if (str.Read(n,4) <> 4) then exit;
     if (n > 399) and (n <= Screen.Height) then MainForm.Height:=n;
    end;
+  // загрузка оборотов
+  if (str.Read(po_count,1) <> 1) then exit;
+  if (str.Read(OB, po_count*4) <> po_count*4) then exit;
+  MainForm.l_oborot.Clear;
+  for n:=0 to po_count-1 do
+   MainForm.l_oborot.Lines.Add(IntToStr(OB[n]));
+  // загрузка газовой карты
+  if (str.Read(x,4) <> 4) then exit;
+  if (str.Read(y,4) <> 4) then exit;
+  if (x<1) or (y<1) then exit;
+  MainForm.g_gaz.ColCount:=x;
+  MainForm.g_gaz.RowCount:=y;
+  for x:=0 to MainForm.g_gaz.ColCount-1 do
+   for y:=0 to MainForm.g_gaz.RowCount-1 do
+    begin
+     if (x=0) and (y=0) then continue;
+     if (str.Read(l,4) <> 4) then exit;
+     if (l<1) then continue;
+     s.Size:=l;
+     s.Seek(0,0);
+     if (s.CopyFrom(str,l) <> l) then exit;
+     s.seek(0,0);
+     MainForm.g_gaz.Cells[x,y]:=s.DataString;
+    end;
+
   g:=true;
  finally
   str.Free;

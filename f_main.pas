@@ -14,7 +14,11 @@ type
   { TMainForm }
 
   TMainForm = class(TForm)
+    alg_makros_group: TGroupBox;
     alg_select: TComboBox;
+    cbMultGazMap: TCheckBox;
+    fill_oborot_button: TButton;
+    clear_button: TButton;
     cs_average: TComboBox;
     cs_splitter: TComboBox;
     cs_charset: TComboBox;
@@ -22,38 +26,36 @@ type
     cs_sft: TComboBox;
     cs_lft: TComboBox;
     cs_giri: TComboBox;
-    ds_chart: TChart;
-    clear_button: TButton;
+    dm_map: TEdit;
+    dm_oboroty: TEdit;
+    dm_vprysk: TEdit;
+    dp_map: TEdit;
+    dp_oboroty: TEdit;
+    dp_vprysk: TEdit;
     ds_b_text: TEdit;
+    ds_chart: TChart;
     ds_k_text: TEdit;
-    file_gas: TStaticText;
+    files_list: TListBox;
+    file_button: TButton;
     file_cont: TStaticText;
+    file_gas: TStaticText;
+    go_button: TButton;
+    graph_group: TGroupBox;
+    Label1: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
     Label13: TLabel;
     Label14: TLabel;
     Label15: TLabel;
     Label16: TLabel;
-    go_button: TButton;
-    dm_vprysk: TEdit;
-    dp_vprysk: TEdit;
-    dm_oboroty: TEdit;
-    dp_oboroty: TEdit;
-    dm_map: TEdit;
-    dp_map: TEdit;
-    file_button: TButton;
-    alg_makros_group: TGroupBox;
-    graph_group: TGroupBox;
-    Label10: TLabel;
-    Label11: TLabel;
-    Label12: TLabel;
     Label17: TLabel;
     Label18: TLabel;
     Label19: TLabel;
+    Label2: TLabel;
     Label20: TLabel;
     Label21: TLabel;
     Label22: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
     flm_add: TMenuItem;
     flm_del: TMenuItem;
     flm_clear: TMenuItem;
@@ -61,33 +63,30 @@ type
     em_print: TMenuItem;
     em_printc: TMenuItem;
     em_about: TMenuItem;
-    ob_min: TEdit;
-    ob_max: TEdit;
-    ob_step: TEdit;
-    files_list: TListBox;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    l_vprysk: TMemo;
     fl_menu: TPopupMenu;
     fl_open: TOpenDialog;
     exp_menu: TPopupMenu;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    l_vprysk: TMemo;
+    l_oborot: TMemo;
     PrintDialog1: TPrintDialog;
     SaveDialog1: TSaveDialog;
-    s_vprysk: TComboBox;
-    Label1: TLabel;
-    Label2: TLabel;
     logtext: TMemo;
     PageControl1: TPageControl;
     g_benz: TStringGrid;
     g_gaz: TStringGrid;
     g_kor: TStringGrid;
+    s_vprysk: TComboBox;
     t_csetup: TTabSheet;
-    t_setup: TTabSheet;
     t_kmap: TTabSheet;
     t_benzmap: TTabSheet;
     t_gazmap: TTabSheet;
+    t_setup: TTabSheet;
     procedure alg_selectChange(Sender: TObject);
     procedure clear_buttonClick(Sender: TObject);
     procedure cs_charsetChange(Sender: TObject);
@@ -101,6 +100,7 @@ type
     procedure files_listMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure file_buttonClick(Sender: TObject);
+    procedure fill_oborot_buttonClick(Sender: TObject);
     procedure flm_addClick(Sender: TObject);
     procedure flm_clearClick(Sender: TObject);
     procedure flm_delClick(Sender: TObject);
@@ -119,7 +119,7 @@ type
     procedure t_setupResize(Sender: TObject);
   private
     { private declarations }
-    function SetCellColor(CStr: string): TColor;
+    function SetCellColor(grid: TStringGrid; x,y: integer): TColor;
     procedure PrintTable(Colored: boolean);
   public
     { public declarations }
@@ -176,6 +176,14 @@ begin
  if (alg_select.ItemIndex=2) then CheckContFile(fl_open.Files.Strings[0])
 end;
 
+procedure TMainForm.fill_oborot_buttonClick(Sender: TObject);
+begin
+  ZVVForm_Mode := 1;
+  ZVVForm.Show;   
+  l_oborot.SelStart:=0;
+  l_oborot.SelLength:=0;
+end;
+
 procedure TMainForm.files_listKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -203,6 +211,8 @@ begin
  cs_sft.Enabled:=False;
  cs_lft.Enabled:=False;
  cs_splitter.Enabled:=False;
+ cbMultGazMap.Enabled:=False;
+
  if (alg_select.ItemIndex=0) then
  begin
   dm_map.Enabled:=True;
@@ -239,6 +249,7 @@ begin
      cs_sft.Enabled:=True;
      cs_lft.Enabled:=True;
      cs_splitter.Enabled:=True;
+     cbMultGazMap.Enabled:=True;
     end else
      if (alg_select.ItemIndex=3) then
       begin
@@ -257,6 +268,7 @@ begin
        //t_benzmap.Visible:=False;
        //t_gazmap.Visible:=False;
        //t_csetup.Visible:=False;
+       cbMultGazMap.Enabled:=True;
       end;
 end;
 
@@ -347,9 +359,6 @@ begin
  s_vprysk.Items.Add('2-10 шаг 0,5');
  s_vprysk.Items.Add('2-18 шаг 0,5');
  s_vprysk.ItemIndex:=2;
- ob_min.Text:='500';
- ob_max.Text:='4500';
- ob_step.Text:='500';
  dm_vprysk.Text:='0,05';
  dp_vprysk.Text:='0,05';
  dm_oboroty.Text:='100';
@@ -439,7 +448,7 @@ var
 begin
  if (aCol = 0) or (aRow = 0) then exit;
  if (g_kor.Cells[aCol,aRow] = '') then exit;
- g_kor.Canvas.Brush.Color:=SetCellColor(g_kor.Cells[aCol,aRow]);
+ g_kor.Canvas.Brush.Color:=SetCellColor(g_kor, aCol, aRow);
  g_kor.Canvas.FillRect(aRect);
  y:=g_kor.Canvas.TextHeight(g_kor.Cells[aCol,aRow]) div 2;
  x:=g_kor.Canvas.TextWidth(g_kor.Cells[aCol,aRow]) div 2;
@@ -469,7 +478,8 @@ var
 begin
  if (s_vprysk.ItemIndex = 0) then
   begin
-   l_vprysk.ReadOnly:=False;
+   l_vprysk.ReadOnly:=False;   
+   ZVVForm_Mode := 0;
    ZVVForm.Show;
   end else
    l_vprysk.ReadOnly:=True;
@@ -524,7 +534,9 @@ begin
  clear_button.Left:=file_button.Left;
  alg_select.Width:=t_setup.ClientWidth-alg_select.Left;
  l_vprysk.Top := s_vprysk.Top + s_vprysk.Height + 1;
- l_vprysk.Height := t_setup.Height - l_vprysk.Top - 1;
+ l_vprysk.Height := t_setup.Height - l_vprysk.Top - 1; 
+ l_oborot.Top := fill_oborot_button.Top + fill_oborot_button.Height + 1;
+ l_oborot.Height := t_setup.Height - l_oborot.Top - 1;
  go_button.Left:=t_setup.ClientWidth - go_button.Width - 1;
  if graph_group.Visible then bgv:=True else bgv:=False;
  if not bgv then
@@ -537,17 +549,23 @@ begin
  if not bgv then graph_group.Visible:=False;
 end;
 
-function TMainForm.SetCellColor(CStr: string): TColor;
+function TMainForm.SetCellColor(grid: TStringGrid; x, y: integer): TColor;
 var
  r,g,b: byte;
  c: single;
+ CStr: string;
 begin
+ CStr := grid.Cells[x, y];
  c:=todouble(CStr);
  if (c = 0) then
   begin
    Result:=clWhite;
    exit;
   end;
+
+ if (cbMultGazMap.Enabled and cbMultGazMap.Checked and ((alg_select.ItemIndex = 2) or (alg_select.ItemIndex = 3))) then
+   c := c - todouble(g_gaz.Cells[x, y]);
+
  if (c < -100) then c:=-100;
  if (c > 100) then c:=100;
  if (c<0) then
@@ -606,7 +624,7 @@ begin
       R.Right:=(x+1)*CellWidth-round(0.1*LineHeight);
       if Colored and (x>0) and (y>0) then
        begin
-        Canvas.Brush.Color:=SetCellColor(g_kor.Cells[x,y]);
+        Canvas.Brush.Color:=SetCellColor(g_kor, x, y);
         Canvas.FillRect(x*CellWidth+5,YPos,(x+1)*CellWidth+5,Ypos+VerticalMargin);
        end;
       if (x=0) and (y=0) then

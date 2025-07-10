@@ -112,6 +112,7 @@ end;
 procedure calc_econt;
 var
  n,x,y: integer;
+ sum, gm: single;
 begin
  WriteLog('Расчёт по коррекциям контроллера двигателя...');
  LoadDataECont;
@@ -129,8 +130,20 @@ begin
        (CGiri[n] >= OB[x]-dom) and (CGiri[n] <= OB[x]+dop) then
         mid_add(CLT[n]+CST[n]);
      end;
-    if (midc>0) then MainForm.g_kor.Cells[x+1,y+1] :=
-     FloatToStrF(mid_calc,ffFixed, 2, 2) else MainForm.g_kor.Cells[x+1,y+1]:='-';
+    if (midc>0) then
+    begin
+      sum := mid_calc;
+
+      if (MainForm.cbMultGazMap.Enabled and MainForm.cbMultGazMap.Checked) then
+      begin
+        gm := toDouble(MainForm.g_gaz.Cells[x+1, y+1]);
+        if (gm > 0) then
+          sum := gm + (gm / 100 * sum);
+      end;
+      MainForm.g_kor.Cells[x+1,y+1] := FloatToStrF(sum, ffFixed, 2, 2)
+    end
+    else
+      MainForm.g_kor.Cells[x+1,y+1]:='-';
    end;
 end;
 
