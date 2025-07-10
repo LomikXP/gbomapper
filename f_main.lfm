@@ -1,0 +1,743 @@
+object MainForm: TMainForm
+  Left = 313
+  Height = 460
+  Top = 192
+  Width = 640
+  Caption = 'Настройка карты ГБО 4 поколения'
+  ClientHeight = 460
+  ClientWidth = 640
+  Constraints.MinHeight = 460
+  Constraints.MinWidth = 640
+  Icon.Data = {
+    7E04000000000100010010100000010020006804000016000000280000001000
+    0000200000000100200000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    000000000000000000000000000036DC5600000000002BD54B1825D0461920CC
+    40191BC73B1916C336190FBE31190CBA2D160AB82B0001B1220F00B0201A00B0
+    21050000000000000000000000000000000035DC557E35D954FF34D553FE2FD1
+    4DFE2ACD49FE25C944FE20C43FFE0FBD30F412BE310404B325CC04B125FF00B0
+    2178000000000000000047EA665041E6606C3DE15CFFF9FEFAFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFF5ED474FF11BE316E0AB92BF8AEE6B9FF00B0
+    20B156F875AA51F36F5F63F17DFF8CF29FFFE6FCE9FFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFDAF6DFFF6ED982FFA8E7B3FFBAEBC3FF02B3
+    23D35BFC7AC856F8755D8FF8A2FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0EEC8FF07B8
+    28E25FFF7DC85CFD7ADA92FBA6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFEFCFFFEFFFEFFC0EEC8FF0CBD
+    2EDF5FFF7DC85FFF7D6C95FEA9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFB7F0C1FF30D24EFF70DE84FFBDEFC7FF14C2
+    34C95FFF7DCA5FFF7D619AFFADFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFF56E070FF2BD44B281CCE3EF0A5EAB2FF1BC7
+    3C9F5FFF7D5D5FFF7D3C5CFF7BF054FF75F8E6FFEBFFF8FFF9FFF7FFF9FFF7FF
+    F8FFF6FEF8FFECFDF0FF2BE04EFB35DD55D938DF58032DD54CAA1FCE40F022CB
+    414C5FFF7D0000000000000000005FFF7D9257FF76E452FD73E84EF96EFF48F3
+    69FF42EE63F43DEA5DE343E762B0000000000000000000000000000000000000
+    000000000000000000005FFF7D005FFF7D1A5FFF7D9B5FFF7DA85EFE7CFF57F9
+    76FF53F571D44EF16C9C4AEE693343E761000000000000000000000000000000
+    00000000000000000000000000005FFF7D055FFF7D1B5FFF7D1A5FFF7D195CFC
+    7A1955F7741A50F36F1B4CF06B09000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000FFFF0000FFFF0000FFFF0000F8090000F008000040000000400000000000
+    00004000000040080000C0090000E01F0000F03F0000FFFF0000FFFF0000FFFF
+    0000
+  }
+  OnHide = FormHide
+  OnResize = FormResize
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.2.4.0'
+  object PageControl1: TPageControl
+    Left = 0
+    Height = 370
+    Top = 0
+    Width = 640
+    ActivePage = t_csetup
+    Align = alTop
+    ParentFont = False
+    TabIndex = 1
+    TabOrder = 0
+    object t_setup: TTabSheet
+      Caption = 't_setup'
+      ClientHeight = 335
+      ClientWidth = 634
+      OnResize = t_setupResize
+      ParentFont = False
+      object Label1: TLabel
+        Left = 1
+        Height = 17
+        Top = 29
+        Width = 114
+        Caption = 'Исходные данные'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label2: TLabel
+        Left = 1
+        Height = 17
+        Top = 120
+        Width = 97
+        Caption = 'Время впрыска'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+      object s_vprysk: TComboBox
+        Left = 1
+        Height = 27
+        Top = 142
+        Width = 90
+        ItemHeight = 0
+        OnChange = s_vpryskChange
+        ParentFont = False
+        TabOrder = 0
+        Text = 's_vprysk'
+      end
+      object files_list: TListBox
+        Left = 0
+        Height = 68
+        Top = 48
+        Width = 544
+        Items.Strings = (
+          'files_list'
+        )
+        ItemHeight = 0
+        OnKeyDown = files_listKeyDown
+        OnMouseUp = files_listMouseUp
+        ParentFont = False
+        ScrollWidth = 542
+        TabOrder = 1
+        TopIndex = -1
+      end
+      object l_vprysk: TMemo
+        Left = 1
+        Height = 157
+        Top = 176
+        Width = 90
+        Lines.Strings = (
+          'l_vprysk'
+        )
+        ParentFont = False
+        ReadOnly = True
+        ScrollBars = ssVertical
+        TabOrder = 2
+      end
+      object Label3: TLabel
+        Left = 112
+        Height = 17
+        Top = 120
+        Width = 56
+        Caption = 'Обороты'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label4: TLabel
+        Left = 112
+        Height = 17
+        Top = 151
+        Width = 59
+        Caption = 'Минимум'
+        ParentColor = False
+        ParentFont = False
+      end
+      object ob_min: TEdit
+        Left = 112
+        Height = 27
+        Top = 169
+        Width = 64
+        ParentFont = False
+        TabOrder = 3
+        Text = 'ob_min'
+      end
+      object Label5: TLabel
+        Left = 112
+        Height = 17
+        Top = 208
+        Width = 62
+        Caption = 'Максимум'
+        ParentColor = False
+        ParentFont = False
+      end
+      object ob_max: TEdit
+        Left = 112
+        Height = 27
+        Top = 225
+        Width = 64
+        ParentFont = False
+        TabOrder = 4
+        Text = 'ob_max'
+      end
+      object Label6: TLabel
+        Left = 112
+        Height = 17
+        Top = 263
+        Width = 24
+        Caption = 'Шаг'
+        ParentColor = False
+        ParentFont = False
+      end
+      object ob_step: TEdit
+        Left = 112
+        Height = 27
+        Top = 281
+        Width = 64
+        ParentFont = False
+        TabOrder = 5
+        Text = 'ob_step'
+      end
+      object file_button: TButton
+        Left = 543
+        Height = 26
+        Top = 48
+        Width = 89
+        Caption = 'file_button'
+        OnClick = file_buttonClick
+        ParentFont = False
+        TabOrder = 6
+      end
+      object alg_makros_group: TGroupBox
+        Left = 190
+        Height = 119
+        Top = 125
+        Width = 340
+        Caption = 'alg_makros_group'
+        ClientHeight = 115
+        ClientWidth = 336
+        ParentFont = False
+        TabOrder = 7
+        object Label8: TLabel
+          Left = 70
+          Height = 17
+          Top = 8
+          Width = 90
+          Caption = 'Время впрыска'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label9: TLabel
+          Left = 186
+          Height = 17
+          Top = 8
+          Width = 52
+          Caption = 'Обороты'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label10: TLabel
+          Left = 8
+          Height = 24
+          Top = 40
+          Width = 72
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Δ минус'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label11: TLabel
+          Left = 8
+          Height = 18
+          Top = 72
+          Width = 72
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Δ плюс'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label12: TLabel
+          Left = 270
+          Height = 17
+          Top = 8
+          Width = 26
+          Caption = 'МАР'
+          ParentColor = False
+          ParentFont = False
+        end
+        object dm_vprysk: TEdit
+          Left = 88
+          Height = 27
+          Top = 33
+          Width = 73
+          ParentFont = False
+          TabOrder = 0
+          Text = 'dm_vprysk'
+        end
+        object dp_vprysk: TEdit
+          Left = 88
+          Height = 27
+          Top = 69
+          Width = 73
+          ParentFont = False
+          TabOrder = 1
+          Text = 'dp_vprysk'
+        end
+        object dm_oboroty: TEdit
+          Left = 171
+          Height = 27
+          Top = 33
+          Width = 73
+          ParentFont = False
+          TabOrder = 2
+          Text = 'dm_oboroty'
+        end
+        object dp_oboroty: TEdit
+          Left = 171
+          Height = 27
+          Top = 69
+          Width = 73
+          ParentFont = False
+          TabOrder = 3
+          Text = 'dp_oboroty'
+        end
+        object dm_map: TEdit
+          Left = 254
+          Height = 27
+          Top = 33
+          Width = 73
+          ParentFont = False
+          TabOrder = 4
+          Text = 'dm_map'
+        end
+        object dp_map: TEdit
+          Left = 254
+          Height = 27
+          Top = 69
+          Width = 73
+          ParentFont = False
+          TabOrder = 5
+          Text = 'dp_map'
+        end
+      end
+      object go_button: TButton
+        Left = 536
+        Height = 45
+        Top = 125
+        Width = 96
+        Caption = 'go_button'
+        Font.Style = [fsBold]
+        OnClick = go_buttonClick
+        ParentFont = False
+        TabOrder = 8
+      end
+      object Label7: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 57
+        Alignment = taRightJustify
+        Caption = 'Расчёт по'
+        ParentColor = False
+        ParentFont = False
+      end
+      object alg_select: TComboBox
+        Left = 176
+        Height = 27
+        Top = 0
+        Width = 456
+        ItemHeight = 0
+        OnChange = alg_selectChange
+        ParentFont = False
+        TabOrder = 9
+        Text = 'alg_select'
+      end
+      object clear_button: TButton
+        Left = 544
+        Height = 26
+        Top = 80
+        Width = 89
+        Caption = 'clear_button'
+        OnClick = clear_buttonClick
+        ParentFont = False
+        TabOrder = 10
+      end
+      object graph_group: TGroupBox
+        Left = 190
+        Height = 90
+        Top = 245
+        Width = 442
+        Caption = 'graph_group'
+        ClientHeight = 71
+        ClientWidth = 438
+        ParentFont = False
+        TabOrder = 11
+        object ds_chart: TChart
+          Left = 0
+          Height = 71
+          Top = 0
+          Width = 438
+          AxisList = <          
+            item
+              Marks.LabelBrush.Style = bsClear
+              Minors = <>
+              Title.LabelFont.Orientation = 900
+              Title.LabelBrush.Style = bsClear
+            end          
+            item
+              Visible = False
+              Alignment = calBottom
+              Marks.LabelBrush.Style = bsClear
+              Minors = <>
+              Title.LabelBrush.Style = bsClear
+            end>
+          BackColor = clWhite
+          Foot.Brush.Color = clBtnFace
+          Foot.Font.Color = clBlue
+          Title.Brush.Color = clBtnFace
+          Title.Font.Color = clBlue
+          Title.Text.Strings = (
+            'TAChart'
+          )
+          Align = alClient
+        end
+      end
+      object file_gas: TStaticText
+        Left = 0
+        Height = 24
+        Top = 80
+        Width = 544
+        BorderStyle = sbsSunken
+        Caption = 'file_gas'
+        ParentFont = False
+        TabOrder = 12
+        Visible = False
+      end
+      object file_cont: TStaticText
+        Left = 0
+        Height = 24
+        Top = 48
+        Width = 544
+        BorderStyle = sbsSunken
+        Caption = 'file_cont'
+        ParentFont = False
+        TabOrder = 13
+        Visible = False
+      end
+      object Label15: TLabel
+        Left = 536
+        Height = 17
+        Top = 180
+        Width = 14
+        Caption = 'K='
+        ParentColor = False
+        ParentFont = False
+      end
+      object ds_b_text: TEdit
+        Left = 560
+        Height = 27
+        Top = 212
+        Width = 72
+        ParentFont = False
+        TabOrder = 14
+        Text = 'ds_b_text'
+      end
+      object Label16: TLabel
+        Left = 535
+        Height = 17
+        Top = 218
+        Width = 15
+        Caption = 'B='
+        ParentColor = False
+        ParentFont = False
+      end
+      object ds_k_text: TEdit
+        Left = 560
+        Height = 27
+        Top = 176
+        Width = 72
+        ParentFont = False
+        TabOrder = 15
+        Text = 'ds_k_text'
+      end
+    end
+    object t_csetup: TTabSheet
+      Caption = 't_csetup'
+      ClientHeight = 335
+      ClientWidth = 634
+      OnResize = t_csetupResize
+      ParentFont = False
+      object Label13: TLabel
+        Left = 0
+        Height = 19
+        Top = 0
+        Width = 484
+        Caption = 'Настройка данных в файле контроллера двигателя'
+        Font.CharSet = RUSSIAN_CHARSET
+        Font.Color = clBlack
+        Font.Height = -16
+        Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label14: TLabel
+        Left = 6
+        Height = 17
+        Top = 30
+        Width = 163
+        Caption = 'Обороты двигателя (1/мин)'
+        ParentColor = False
+        ParentFont = False
+      end
+      object cs_giri: TComboBox
+        Left = 0
+        Height = 27
+        Top = 49
+        Width = 627
+        ItemHeight = 0
+        ParentFont = False
+        TabOrder = 0
+        Text = 'cs_giri'
+      end
+      object Label17: TLabel
+        Left = 6
+        Height = 17
+        Top = 82
+        Width = 116
+        Caption = 'Время впрыска (мс)'
+        ParentColor = False
+        ParentFont = False
+      end
+      object cs_benz: TComboBox
+        Left = 0
+        Height = 27
+        Top = 101
+        Width = 627
+        ItemHeight = 0
+        ParentFont = False
+        TabOrder = 1
+        Text = 'cs_benz'
+      end
+      object Label18: TLabel
+        Left = 6
+        Height = 17
+        Top = 132
+        Width = 180
+        Caption = 'Коррекция топливоподачи (%)'
+        ParentColor = False
+        ParentFont = False
+      end
+      object cs_sft: TComboBox
+        Left = 0
+        Height = 27
+        Top = 151
+        Width = 627
+        ItemHeight = 0
+        ParentFont = False
+        TabOrder = 2
+        Text = 'cs_sft'
+      end
+      object Label19: TLabel
+        Left = 6
+        Height = 17
+        Top = 184
+        Width = 188
+        Caption = 'Долговременная коррекция (%)'
+        ParentColor = False
+        ParentFont = False
+      end
+      object cs_lft: TComboBox
+        Left = 0
+        Height = 27
+        Top = 203
+        Width = 627
+        ItemHeight = 0
+        ParentFont = False
+        TabOrder = 3
+        Text = 'cs_lft'
+      end
+      object Label20: TLabel
+        Left = 6
+        Height = 17
+        Top = 244
+        Width = 63
+        Caption = 'Кодировка'
+        ParentColor = False
+        ParentFont = False
+      end
+      object cs_charset: TComboBox
+        Left = 0
+        Height = 27
+        Top = 263
+        Width = 144
+        ItemHeight = 0
+        OnChange = cs_charsetChange
+        ParentFont = False
+        TabOrder = 4
+        Text = 'cs_charset'
+      end
+      object Label21: TLabel
+        Left = 160
+        Height = 17
+        Top = 244
+        Width = 76
+        Caption = 'Разделитель'
+        ParentColor = False
+        ParentFont = False
+      end
+      object cs_splitter: TComboBox
+        Left = 152
+        Height = 27
+        Top = 263
+        Width = 152
+        ItemHeight = 0
+        OnChange = cs_splitterChange
+        ParentFont = False
+        TabOrder = 5
+        Text = 'cs_splitter'
+      end
+      object Label22: TLabel
+        Left = 320
+        Height = 17
+        Top = 244
+        Width = 158
+        Caption = 'Расчёт среднего значения'
+        ParentColor = False
+      end
+      object cs_average: TComboBox
+        Left = 312
+        Height = 27
+        Top = 263
+        Width = 315
+        ItemHeight = 0
+        TabOrder = 6
+        Text = 'cs_average'
+      end
+    end
+    object t_kmap: TTabSheet
+      Caption = 't_kmap'
+      ClientHeight = 335
+      ClientWidth = 634
+      ParentFont = False
+      object g_kor: TStringGrid
+        Left = 0
+        Height = 335
+        Top = 0
+        Width = 634
+        Align = alClient
+        ColCount = 2
+        MouseWheelOption = mwGrid
+        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goSmoothScroll]
+        ParentFont = False
+        RowCount = 2
+        TabOrder = 0
+        OnDrawCell = g_korDrawCell
+        OnMouseMove = g_korMouseMove
+        OnMouseUp = g_korMouseUp
+      end
+    end
+    object t_benzmap: TTabSheet
+      Caption = 't_benzmap'
+      ClientHeight = 335
+      ClientWidth = 634
+      ParentFont = False
+      object g_benz: TStringGrid
+        Left = 0
+        Height = 335
+        Top = 0
+        Width = 634
+        Align = alClient
+        ColCount = 2
+        MouseWheelOption = mwGrid
+        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goSmoothScroll]
+        ParentFont = False
+        RowCount = 2
+        TabOrder = 0
+      end
+    end
+    object t_gazmap: TTabSheet
+      Caption = 't_gazmap'
+      ClientHeight = 335
+      ClientWidth = 634
+      ParentFont = False
+      object g_gaz: TStringGrid
+        Left = 0
+        Height = 335
+        Top = 0
+        Width = 634
+        Align = alClient
+        ColCount = 2
+        MouseWheelOption = mwGrid
+        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goSmoothScroll]
+        ParentFont = False
+        RowCount = 2
+        TabOrder = 0
+      end
+    end
+  end
+  object logtext: TMemo
+    Left = 0
+    Height = 89
+    Top = 371
+    Width = 640
+    Align = alBottom
+    Lines.Strings = (
+      'logtext'
+    )
+    ParentFont = False
+    ReadOnly = True
+    ScrollBars = ssAutoVertical
+    TabOrder = 1
+  end
+  object fl_menu: TPopupMenu
+    Left = 288
+    Top = 48
+    object flm_add: TMenuItem
+      Caption = 'Добавить'
+      OnClick = flm_addClick
+    end
+    object flm_del: TMenuItem
+      Caption = 'Удалить'
+      OnClick = flm_delClick
+    end
+    object flm_clear: TMenuItem
+      Caption = 'Очистить'
+      OnClick = flm_clearClick
+    end
+  end
+  object fl_open: TOpenDialog
+    Title = 'Добавить файлы поездок'
+    Filter = 'Все файлы данных (*.txt; *.csv)|*.txt; *.csv|Файлы газовых данных (*.txt)|*.txt|Файлы данных контроллера двигателя (*.csv)|*.csv|Все файлы (*.*)|*.*'
+    Options = [ofAllowMultiSelect, ofEnableSizing, ofViewDetail]
+    Left = 536
+    Top = 48
+  end
+  object exp_menu: TPopupMenu
+    Left = 480
+    Top = 48
+    object em_text: TMenuItem
+      Caption = 'Сохранить как текст'
+      OnClick = em_textClick
+    end
+    object em_print: TMenuItem
+      Caption = 'Печать ч/б'
+      OnClick = em_printClick
+    end
+    object em_printc: TMenuItem
+      Caption = 'Печать в цвете'
+      OnClick = em_printcClick
+    end
+    object em_about: TMenuItem
+      Caption = 'О программе'
+      OnClick = em_aboutClick
+    end
+  end
+  object PrintDialog1: TPrintDialog
+    Left = 416
+    Top = 48
+  end
+  object SaveDialog1: TSaveDialog
+    Title = 'Экспорт данных в текстовый файл'
+    Left = 352
+    Top = 48
+  end
+end
