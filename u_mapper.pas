@@ -27,7 +27,7 @@ var
  n,x,y: integer;
  Sum, r: double;
 begin
- Writelog('Расчёт по оригинальному макросу...');
+ Writelog('Расчёт по оригинальному макросу.');
  Writelog('Дельта впрыска: +'+FloatToStrF(dvp,ffFixed, 1, 3)+' -'+
   FloatToStrF(dvm,ffFixed, 1, 3));
  Writelog('Дельта оборотов: +'+inttostr(dop)+' -'+inttostr(dom));

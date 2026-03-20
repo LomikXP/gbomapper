@@ -403,7 +403,7 @@ begin
  cs_splitter.ItemIndex:=0;
  cs_average.Items.Add('Среднее арифметическое');
  cs_average.Items.Add('Медиана');
- cs_average.ItemIndex:=0;
+ cs_average.ItemIndex:=1;
  NoBenz:=False;
  g_kor.Cells[0,0]:='[Меню]';
  ProcessError:=False;

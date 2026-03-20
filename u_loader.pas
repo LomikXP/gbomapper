@@ -38,7 +38,7 @@ uses f_main;
 
 procedure SetupData(PE: boolean);
 var
- n,i,x: integer;
+ n: integer;
  s: string;
 begin
  with MainForm do
@@ -85,7 +85,7 @@ begin
    for n:=0 to (po_count-2) do
     if (OB[n] > OB[n+1]) and PE then
      begin
-      ErrorMessage('Ошибка в данных оборотв!');
+      ErrorMessage('Ошибка в данных оборотов!');
       exit;
      end;
    if (po_count<2) and PE then
@@ -173,15 +173,19 @@ begin
        if (pos('REALPCOL',SplitA[x-1])>0) and (cmap=0) then begin cmap:=x; continue; end;
        if (pos('RPM',SplitA[x-1])>0) and (crpm=0) then begin crpm:=x; continue; end;
        if (pos('ОБОРОТЫ',SplitA[x-1])>0) and (crpm=0) then begin crpm:=x; continue; end;
+       if (pos('ДАТЧ. УГЛА ПОВОР',SplitA[x-1])>0) and (crpm=0) then begin crpm:=x; continue; end;
        if (pos('REALAVGTG',SplitA[x-1])>0) and (cvg=0) then begin cvg:=x; continue; end;
-       if (pos('REALAVGTB',SplitA[x-1])>0) and (cvb=0) then begin cvb:=x; continue; end;   
+       if (pos('REALAVGTB',SplitA[x-1])>0) and (cvb=0) then begin cvb:=x; continue; end;
+       if (pos('ИНЖЕКТОРЫ',SplitA[x-1])>0) and (cvb=0) then begin cvb:=x; continue; end;
        if (pos('INJECTOR DRIVE TIME',SplitA[x-1])>0) and (cvb=0) then begin cvb:=x; continue; end;
        if (pos('ДЛИТЕЛЬНОСТЬ ВПРЫСКА',SplitA[x-1])>0) and (cvb=0) then begin cvb:=x; continue; end;
        if (pos('МУЛЬТИПЛИКАТИВНАЯ СОСТАВЛЯЮЩАЯ КОРРЕКЦИИ',SplitA[x-1])>0) and (clt=0) then begin clt:=x; continue; end;  
        if (pos('КРАТКОВРЕМЕННАЯ КОРРЕКЦИЯ',SplitA[x-1])>0) and (cst=0) then begin cst:=x; continue; end;
-       if (pos('ДОЛГОВРЕМЕННАЯ КОРРЕКЦИЯ',SplitA[x-1])>0) and (cst=0) then begin clt:=x; continue; end;
+       if (pos('КРАТКОСР. КОРРЕКЦИЯ',SplitA[x-1])>0) and (cst=0) then begin cst:=x; continue; end;
+       if (pos('ДОЛГОВРЕМЕННАЯ КОРРЕКЦИЯ',SplitA[x-1])>0) and (clt=0) then begin clt:=x; continue; end;
+       if (pos('ДОЛГОСРОЧНАЯ КОРРЕКЦИЯ',SplitA[x-1])>0) and (clt=0) then begin clt:=x; continue; end;
        if (pos('КОРРЕКЦИЯ',SplitA[x-1])>0) and (cst=0) then begin cst:=x; continue; end;
-       if (pos('КОЭФФИЦИЕНТ КОРРЕКЦИИ',SplitA[x-1])>0) and (cst=0) then begin if (cst=0) then cst:=x; continue; end;
+       if (pos('КОЭФФИЦИЕНТ КОРРЕКЦИИ',SplitA[x-1])>0) and (cst=0) then begin cst:=x; continue; end;
        if (pos('FUEL',SplitA[x-1])>0)
         and ((pos('PW',SplitA[x-1])>0) or (pos('POW',SplitA[x-1])>0)) or
          (pos('TIME CORR',SplitA[x-1])>0) then begin if (cvb=0) then cvb:=x; continue; end;
@@ -199,7 +203,7 @@ begin
      if (crpm>0) then
       begin
        if (cvb>0) and (cvg>0) then begin DF_type:=1; df_hs:=n+1; break; end;
-       if (cst>0) then begin DF_type:=2; df_hs:=n+1; break; end;
+       if (cst>0) and (cvb>0) then begin DF_type:=2; df_hs:=n+1; break; end;
       end;
     end;
    if (DF_type>0) then break;
@@ -383,14 +387,20 @@ end;
 //Загрузка данных для расчёта по коррекциям контроллера двигателя
 procedure LoadDataECont;
 var
- n,i: integer;
+ n: integer;
  b,cc: byte;
  s: string;
  f: textfile;
+ od_rpm: word;
+ od_lt, od_st, od_vb: single; //"Старые" данные
 begin
  GPoints:=0;
  BPoints:=0;
  CPoints:=0;
+ od_lt:=0;
+ od_st:=0;
+ od_vb:=0;
+ od_rpm:=0;
  FileMode:=0;
  {$I-}
  s:=UTF8toSys(MainForm.file_cont.Caption);
@@ -434,14 +444,26 @@ begin
    if (SplitN<cc) then continue;
    //Чтение данных файла контроллера двигателя
    if (CPoints >= MAX_POINTS) then break;
-   if (df_rpm > 0) then CGiri[CPoints]:=round(todouble(SplitA[df_rpm-1]))
-    else CGiri[CPoints]:=0;
-   if (df_st > 0) then CST[CPoints]:=todouble(SplitA[df_st-1])
-    else CST[CPoints]:=0;
-   if (df_lt > 0) then CLT[CPoints]:=todouble(SplitA[df_lt-1])
-    else CLT[CPoints]:=0;
-   if (df_vb > 0) then CBenz[CPoints]:=todouble(SplitA[df_vb-1])
-    else CBenz[CPoints]:=0;
+   if (df_rpm > 0) then
+    begin //Чтение значения в массив. Если данных нет, по записываем старые данные
+     CGiri[CPoints]:=round(todouble(SplitA[df_rpm-1]));
+     if toNumError then CGiri[CPoints]:=od_rpm else od_rpm:=CGiri[CPoints];
+    end else CGiri[CPoints]:=0;
+   if (df_st > 0) then
+    begin
+     CST[CPoints]:=todouble(SplitA[df_st-1]);
+     if toNumError then CST[CPoints]:=od_st else od_st:=CST[CPoints];
+    end else CST[CPoints]:=0;
+   if (df_lt > 0) then
+    begin
+     CLT[CPoints]:=todouble(SplitA[df_lt-1]);
+     if toNumError then CLT[CPoints]:=od_lt else od_lt:=CLT[CPoints];
+    end else CLT[CPoints]:=0;
+   if (df_vb > 0) then
+    begin
+     CBenz[CPoints]:=todouble(SplitA[df_vb-1]);
+     if toNumError then CBenz[CPoints]:=od_vb else od_vb:=CBenz[CPoints];
+    end else CBenz[CPoints]:=0;
    inc (CPoints);
   end;
  closefile(f);
@@ -517,7 +539,7 @@ begin
    //Если в строке больше 50% цифр, то считаем, что это уже данные, а не заголовок
    if ((cn/l) > 0.5) and (n>0) then begin hs:=n; break; end;
   end;
- l:=cs;
+ l:=cs; //Определяем разделитель данных
  if (cc>l) then l:=cc;
  if (ct>l) then l:=ct;
  if (l<2) or (hs<1) then
@@ -555,12 +577,18 @@ begin
     has[i]:=has[i]+SplitA[i]+' ';
   end;
  closefile(f);
- if (IOResult<>0) or (l<3) then
+ if (IOResult<>0) then
   begin
-   ErrorMessage('При чтении файла произошла ошибка.');
+   ErrorMessage('При чтении файла произошла ошибка ввода/вывода.');
    exit;
   end;
  {$I+}
+ if (l<3) then
+  begin
+   ErrorMessage('При чтении файла произошла ошибка.');
+   MainForm.file_cont.Caption:=FileName;
+   exit;
+  end;
  for i:=0 to l-1 do
   begin
    MainForm.cs_giri.Items.Add(has[i]);
@@ -598,7 +626,7 @@ begin
  try
   str:= TMemoryStream.Create;
   s:= TStringStream.Create('');
-  hdr:='BCFG2';
+  hdr:='BCFG3';
   if (str.Write(hdr,5) <> 5) then exit;
   n:=ZVVForm_Min;
   if (str.Write(n,4) <> 4) then exit;
@@ -700,7 +728,7 @@ begin
  try
   str.LoadFromFile(CFG_FILE);
   if (str.Read(hdr,5) <> 5) then exit;
-  if (hdr <> 'BCFG2') then exit;
+  if (hdr <> 'BCFG3') then exit;
   if (str.Read(n,4) <> 4) then exit;
   ZVVForm_Min:=n;
   if (str.Read(n,4) <> 4) then exit;

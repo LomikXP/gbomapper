@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Dialogs, Forms;
 
 const
- GBOM_VERSION = 'v. 0.4.2a4';
+ GBOM_VERSION = 'v. 0.4.2a5';
  GBOM_BUILD_DATE = {$I %DATE%};
  MAX_POINTS = 131072;
  CFG_FILE = 'gbomap.bcfg';
@@ -60,6 +60,8 @@ var
  //Результаты деления строки SplitString
  SplitA: array [0..255] of string;
  SplitN: integer;
+ //Ошибка при преобразовании строки в число
+ toNumError: boolean;
 
  //Делитель строк (результат в SplitA и SplitN)
  procedure SplitString(S: String; Splitter: Char);
@@ -92,6 +94,7 @@ var
  r: int64;
  sz: boolean;
 begin
+ toNumError:=True;
  r:=0;
  rz:=0;
  sz:=false;
@@ -100,6 +103,7 @@ begin
    if (s[n]='-') then sz:= true;
    if (ord(s[n])>47) and (ord(s[n])<58) then
     begin
+     toNumError:=False;
      r:=r+(ord(s[n])-48)*pow10(rz);
      inc(rz);
     end;
@@ -114,6 +118,7 @@ var
  sz: boolean;
  r: double;
 begin
+ toNumError:=True;
  r:=0;
  rz:=0;
  sz:=false;
@@ -122,6 +127,7 @@ begin
    if (s[n]='-') then sz:= true;
    if (ord(s[n])>47) and (ord(s[n])<58) then
     begin
+     toNumError:=False;
      r:=pow10(rz)*(ord(s[n])-48)+r;
      inc(rz);
     end;
