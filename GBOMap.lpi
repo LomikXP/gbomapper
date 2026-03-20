@@ -16,6 +16,14 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <MinorVersionNr Value="4"/>
+      <RevisionNr Value="2"/>
+      <BuildNr Value="5"/>
+      <Language Value="0419"/>
+      <StringTable ProductVersion="0.4.2a5"/>
+    </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
     </BuildModes>
